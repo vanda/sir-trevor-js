@@ -6,13 +6,15 @@ var Dom = require('../packages/dom');
 
 var Block = require('../block');
 
-var tweet_template = _.template([
-  "<blockquote class='twitter-tweet' align='center'>",
-  "<p><%= text %></p>",
-  "&mdash; <%= user.name %> (@<%= user.screen_name %>)",
-  "<a href='<%= status_url %>' data-datetime='<%= created_at %>'><%= created_at %></a>",
-  "</blockquote>"
-].join("\n"));
+var tweet_template = ({created_at, status_url, text, user}) => {
+  return `
+    <blockquote class="twitter-tweet" align="center">
+    <p>%{text}</p>
+    &mdash; ${user.name} (@${user.screen_name})
+    <a href="${status_url}" data-datetime="${created_at}">${created_at}</a>
+    </blockquote>
+  `;
+};
 
 module.exports = Block.extend({
 

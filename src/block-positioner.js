@@ -1,11 +1,11 @@
 "use strict";
 
-var template = [
-  "<div class='st-block-positioner__inner'>",
-  "<span class='st-block-positioner__selected-value'></span>",
-  "<select class='st-block-positioner__select'></select>",
-  "</div>"
-].join("\n");
+var template = `
+  <div class='st-block-positioner__inner'>
+    <span class='st-block-positioner__selected-value'></span>
+    <select class='st-block-positioner__select'></select>
+  </div>
+`;
 
 var BlockPositioner = function(block, mediator) {
   this.mediator = mediator;

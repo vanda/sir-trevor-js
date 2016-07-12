@@ -10,11 +10,11 @@ module.exports = Block.extend({
   providers: {
     vimeo: {
       regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo\.co(?:.+(?:\/)([^\/].*)+$)/,
-      html: "<iframe src=\"<%= protocol %>//player.vimeo.com/video/<%= remote_id %>?title=0&byline=0\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
+      html: ({protocol, remote_id}) => `<iframe src="${protocol}//player.vimeo.com/video/${remote_id}?title=0&byline=0" width="580" height="320" frameborder="0"></iframe>`
     },
     youtube: {
       regex: /^.*(?:(?:youtu\.be\/)|(?:youtube\.com)\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*)/,
-      html: "<iframe src=\"<%= protocol %>//www.youtube.com/embed/<%= remote_id %>\" width=\"580\" height=\"320\" frameborder=\"0\" allowfullscreen></iframe>"
+      html: ({protocol, remote_id}) => `<iframe src="${protocol}//www.youtube.com/embed/${remote_id}" width="580" height="320" frameborder="0" allowfullscreen></iframe>`
     }
   },
 
@@ -37,11 +37,11 @@ module.exports = Block.extend({
       'with-square-media' : 'with-sixteen-by-nine-media';
 
     this.editor.classList.add('st-block__editor--' + aspectRatioClass);
-    this.editor.innerHTML = _.template(source.html, {
-                                protocol: protocol,
-                                remote_id: data.remote_id,
-                                width: this.editor.style.width // for videos like vine
-                              });
+    this.editor.innerHTML = source.html({
+                              protocol: protocol,
+                              remote_id: data.remote_id,
+                              width: this.editor.style.width // for videos like vine
+                            });
   },
 
   onContentPasted: function(event){

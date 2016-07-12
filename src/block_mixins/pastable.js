@@ -1,6 +1,5 @@
 "use strict";
 
-var _ = require('../lodash');
 var config = require('../config');
 var utils = require('../utils');
 
@@ -15,7 +14,7 @@ module.exports = {
     this.paste_options = Object.assign(
       {}, config.defaults.Block.paste_options, this.paste_options);
 
-    this.inputs.insertAdjacentHTML("beforeend", _.template(this.paste_options.html, this));
+    this.inputs.insertAdjacentHTML("beforeend", this.paste_options.html());
 
     Array.prototype.forEach.call(this.$('.st-paste-block'), (el) => {
       el.addEventListener('click', function() { 

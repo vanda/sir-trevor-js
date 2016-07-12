@@ -1,6 +1,5 @@
 "use strict";
 
-var _ = require('../lodash');
 var config = require('../config');
 var utils = require('../utils');
 
@@ -18,7 +17,7 @@ module.exports = {
     this.withMixin(require('./ajaxable'));
 
     this.upload_options = Object.assign({}, config.defaults.Block.upload_options, this.upload_options);
-    this.inputs.insertAdjacentHTML("beforeend", _.template(this.upload_options.html, this));
+    this.inputs.insertAdjacentHTML("beforeend", this.upload_options.html());
 
     Array.prototype.forEach.call(this.inputs.querySelectorAll('button'), function(button) {
       button.addEventListener('click', function(ev){ ev.preventDefault(); });
