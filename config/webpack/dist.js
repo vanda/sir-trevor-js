@@ -24,14 +24,24 @@ module.exports = webpackConfigMerger(require('./config'), {
       compress: {
         warnings: false
       },
-      mangle: false
+      mangle: false,
+
     }),
-    new webpack.BannerPlugin(banner, {raw: true})
+    new webpack.BannerPlugin({banner: banner, raw: true})
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.svg$/,
-      loader: ExtractTextPlugin.extract("file?name=[name].[ext]")
+      use: ExtractTextPlugin.extract({
+        use: "file-loader?name=[name].debug.[ext]"
+      })
+    }, {
+      test: /\.js?$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel-loader',
+      options: {
+        presets: ['babel-preset-es2015']
+      }
     }]
   }
 });

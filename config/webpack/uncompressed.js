@@ -9,18 +9,25 @@ var config = webpackConfigMerger(require('./config'), {
   plugins: [
     // Include so we can share config, but disable
     new ExtractTextPlugin("sir-trevor.css"),
-  ],
-  module: {
-    loaders: [{
-      test: /\.svg$/,
-      loader: ExtractTextPlugin.extract("file?name=[name].[ext]")
-    }]
-  }
+  ]
 });
 
-config.module.preLoaders = [{
+config.module.rules = [{
+  test: /\.svg$/,
+  use: ExtractTextPlugin.extract({
+    use: "file-loader?name=[name].debug.[ext]"
+  })
+}, {
   test: /\.scss$/,
-  loader: ExtractTextPlugin.extract('css!autoprefixer!sass?outputStyle=uncompressed')
+  enforce: "pre",
+  loader: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: ['css-loader', 'resolve-url-loader', 'postcss-loader', 'sass-loader?outputStyle=uncompressed']
+  })
+}, {
+  test: /\.js?$/,
+  exclude: /(node_modules|bower_components)/,
+  loader: 'babel-loader'
 }];
 
 module.exports = config;

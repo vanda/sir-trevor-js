@@ -4,6 +4,15 @@ describe("BlockManager::Options", function(){
 
   var manager, mediator;
 
+  function managerWithOptions(options) {
+    var element = global.createBaseElement();
+    var editor  = new SirTrevor.Editor(Object.assign({
+      el: element,
+      blockTypes: ["Text"]
+    }, options));
+    manager = editor.blockManager;
+  }
+
   beforeEach(function(){
     mediator = _.extend({}, SirTrevor.Events);
   });
@@ -65,14 +74,5 @@ describe("BlockManager::Options", function(){
     });
 
   });
-
-  function managerWithOptions(options) {
-    var element = global.createBaseElement();
-    var editor  = new SirTrevor.Editor(Object.assign({
-      el: element,
-      blockTypes: ["Text"]
-    }, options));
-    manager = editor.blockManager;
-  }
 
 });

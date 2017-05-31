@@ -66,19 +66,19 @@ module.exports = function(config) {
 
     webpack: {
       module: {
-        loaders: [{
+        rules: [{
           test: /\.js?$/,
           exclude: /(node_modules|bower_components)/,
-          loader: 'babel?optional[]=runtime'
-        }],
-        preLoaders: [{
+          loader: 'babel-loader'
+        }, {
           test: /\.scss$/,
-          loader: 'css!autoprefixer!sass?outputStyle=compressed'
-        }],
-        loaders: [
-          { test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel?stage=0&optional=runtime' },
-          { test: /\.svg$/, loader: 'file' }
-        ]
+          enforce: "pre",
+          loader: ["css-loader", "resolve-url-loader", "postcss-loader", "sass-loader"]
+        }, {
+          test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel-loader'
+        }, {
+          test: /\.svg$/, loader: 'file-loader'
+        }]
       }
     },
 

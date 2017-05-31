@@ -1,27 +1,51 @@
-var webpack = require('webpack');
-var webpackConfigMerger = require('webpack-config-merger');
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
+const webpack = require('webpack');
+const webpackConfigMerger = require('webpack-config-merger');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var config = webpackConfigMerger(require('./config'), {
-  debug: true,
   devtool: 'source-map',
   output: {
     filename: 'sir-trevor.debug.js'
   },
   plugins: [
-    new ExtractTextPlugin("sir-trevor.debug.css")
-  ],
-  module: {
-    loaders: [{
-      test: /\.svg$/,
-      loader: ExtractTextPlugin.extract("file?name=[name].debug.[ext]")
-    }]
-  }
+    new ExtractTextPlugin("sir-trevor.debug.css"),
+    new webpack.LoaderOptionsPlugin({
+       debug: true
+    })
+  ]
 });
 
-config.module.preLoaders = [{
+config.module.rules = [{
+  test: /\.svg$/,
+  use: ExtractTextPlugin.extract({
+    use: "file-loader?name=[name].debug.[ext]"
+  })
+}, {
   test: /\.scss$/,
-  loader: ExtractTextPlugin.extract('css?sourceMaps!autoprefixer!sass?sourceMaps&outputStyle=uncompressed')
-}];
+  enforce: "pre",
+  loader: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: [{
+      loader: "css-loader", options: {
+        sourceMap: true
+      }
+    }, {
+      loader: "resolve-url-loader"
+    }, {
+      loader: "postcss-loader", options: {
+        sourceMap: true
+      }
+    }, {
+      loader: "sass-loader", options: {
+        sourceMap: true,
+        outputStyle: 'uncompressed'
+      }
+    }]
+  })
+}, {
+  test: /\.js?$/,
+  exclude: /(node_modules|bower_components)/,
+  loader: 'babel-loader'
+}]
 
 module.exports = config;

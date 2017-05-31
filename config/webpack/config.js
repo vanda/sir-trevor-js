@@ -17,17 +17,27 @@ module.exports = {
     }
   },
   module: {
-    loaders: [{
+    rules: [{
+      test: /\.scss$/,
+      enforce: "pre",
+      loader: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [{
+          loader: "css-loader"
+        }, {
+          loader: "resolve-url-loader"
+        }, {
+          loader: "postcss-loader"
+        }, {
+          loader: "sass-loader", options: {
+            outputStyle: 'compressed'
+          }
+        }]
+      })
+    }, {
       test: /\.js?$/,
       exclude: /(node_modules|bower_components)/,
-      loader: 'babel?optional[]=runtime'
-    }],
-    preLoaders: [{
-      test: /\.scss$/,
-      loader: ExtractTextPlugin.extract('css!autoprefixer!sass?outputStyle=compressed')
+      loader: 'babel-loader'
     }]
-  },
-  plugins: [
-    new webpack.optimize.DedupePlugin()
-  ]
+  }
 };

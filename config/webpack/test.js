@@ -3,17 +3,21 @@ var webpackConfigMerger = require('webpack-config-merger');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = webpackConfigMerger(require('./config'), {
-  debug: true,
   output: {
     filename: 'sir-trevor.test.js'
   },
   plugins: [
-    new ExtractTextPlugin("sir-trevor.test.css")
+    new ExtractTextPlugin("sir-trevor.test.css"),
+    new webpack.LoaderOptionsPlugin({
+       debug: true
+    })
   ],
   module: {
-    loaders: [{
+    rules: [{
       test: /\.svg$/,
-      loader: ExtractTextPlugin.extract("file?name=[name].test.[ext]")
+      use: ExtractTextPlugin.extract({
+        use: "file-loader?name=[name].debug.[ext]"
+      })
     }]
   }
 });

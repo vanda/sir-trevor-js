@@ -45,15 +45,6 @@ module.exports.create = function(SirTrevor) {
     );
   }
 
-  function insert(e) {
-    e.stopPropagation(); // we don't want el to be removed by the window click
-    /*jshint validthis:true */
-    var parent = this.parentNode;
-    if (!parent || hide() === parent) { return; }
-    parent.appendChild(el);
-    parent.classList.toggle("st-block--controls-active");
-  }
-
   // Public
   function hide() {
     var parent = el.parentNode;
@@ -61,6 +52,15 @@ module.exports.create = function(SirTrevor) {
     parent.removeChild(el);
     parent.classList.remove("st-block--controls-active");
     return parent;
+  }
+
+  function insert(e) {
+    e.stopPropagation(); // we don't want el to be removed by the window click
+    /*jshint validthis:true */
+    var parent = this.parentNode;
+    if (!parent || hide() === parent) { return; }
+    parent.appendChild(el);
+    parent.classList.toggle("st-block--controls-active");
   }
 
   // Public

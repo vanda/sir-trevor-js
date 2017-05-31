@@ -28,7 +28,6 @@ module.exports = function(grunt) {
       start: {
         webpack: require('./config/webpack/dev'),
         keepalive: true,
-        hot: true,
         contentBase: "./",
         inline: true,
         host: '127.0.0.1'

@@ -4,6 +4,11 @@ describe("BlockManager::Validations", function(){
 
   var manager;
 
+  function createBlock(data) {
+    manager.createBlock('Text', data || {});
+    return _.last(manager.blocks);
+  }
+
   describe("required block types", function(){
 
     beforeEach(function(){
@@ -39,10 +44,5 @@ describe("BlockManager::Validations", function(){
     });
 
   });
-
-  function createBlock(data) {
-    manager.createBlock('Text', data || {});
-    return _.last(manager.blocks);
-  }
 
 });

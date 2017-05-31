@@ -177,12 +177,16 @@ describe('Text block', function() {
       helpers.focusOnTextBlock().then( function() {
         return enterText("T");
       })
-      .then(getTextBeforeCaret)
+      .then(function() {
+        return getTextBeforeCaret(0);
+      })
       .then(function(text) {
         expect(text).toBe("T");
       })
       .then(pressLeft)
-      .then(getTextBeforeCaret)
+      .then(function() {
+        return getTextBeforeCaret(0);
+      })
       .then(function(text) {
         expect(text).toBe("");
         done();
@@ -201,7 +205,9 @@ describe('Text block', function() {
               expect(text).toBe("");
             })
             .then(pressLeft)
-            .then(getTextBeforeCaret)
+            .then(function() {
+              return getTextBeforeCaret(0);
+            })
             .then(function(text) {
               expect(text).toBe("One");
               done();
@@ -216,13 +222,17 @@ describe('Text block', function() {
 
     it('should move right 1 character', function(done) {
       helpers.focusOnTextBlock()
-        .then(getTextBeforeCaret)
+        .then(function() {
+          return getTextBeforeCaret(0);
+        })
         .then(function(text) {
           expect(text).toBe("");
         })
         .then(pressRight)
         .then(pressRight)
-        .then(getTextBeforeCaret)
+        .then(function() {
+          return getTextBeforeCaret(0);
+        })
         .then(function(text) {
           expect(text).toBe("On");
           done();
