@@ -17,24 +17,6 @@ var ScribeTextBlockPlugin = function(block) {
       }
     };
 
-    var rangeToHTML = function(range, extract) {
-      var div = document.createElement('div');
-      if (extract) {
-        div.appendChild(range.extractContents());
-      } else {
-        div.appendChild(range.cloneContents());
-      }
-
-      stripFirstEmptyElement(div);
-
-      // Sometimes you'll get an empty tag at the start of the block.
-      if (div.firstChild && div.firstChild.nodeName !== '#text') {
-        div = div.lastChild;
-      }
-
-      return div.innerHTML.trim();
-    };
-
     var selectToEnd = function() {
       var selection = new scribe.api.Selection();
       var range = selection.range.cloneRange();
@@ -44,22 +26,8 @@ var ScribeTextBlockPlugin = function(block) {
     };
 
     var isAtStartOfBlock = function() {
-      if (scribe.getTextContent() === '') { return true; }
-
-      var selection = new scribe.api.Selection();
-      var range = selection.range.cloneRange();
-
-      range.setStartBefore(scribe.el.firstChild, 0);
-
-      var node = range.endContainer.nodeType === 3 ? range.endContainer.parentNode : range.endContainer;
-
-      // We make sure that the caret must be inside the first element to consider
-      // it at the beginning of the block
-      if (scribe.el.firstChild !== node) {
-        return false;
-      }
-
-      return rangeToHTML(range, false) === '';
+      var currentRange = selectionRange(scribe.el);
+      return currentRange.atStart;
     };
 
     var getTotalLength = function() {
@@ -74,6 +42,11 @@ var ScribeTextBlockPlugin = function(block) {
       var currentRange = selectionRange(scribe.el);
 
       return (getTotalLength() === currentRange.end) && (currentRange.start === currentRange.end);
+    };
+
+    var isCaretAtStartOfBlock = function() {
+      var currentRange = selectionRange(scribe.el);
+      return currentRange.atStart && (currentRange.start === currentRange.end);
     };
 
     var createBlocksFromParagraphs = function() {
@@ -133,7 +106,7 @@ var ScribeTextBlockPlugin = function(block) {
         ev.preventDefault();
 
         block.mediator.trigger("block:focusPrevious", block.blockID);
-      } else if (ev.keyCode === 8 && isAtStartOfBlock()) {
+      } else if (ev.keyCode === 8 && isCaretAtStartOfBlock()) {
         ev.preventDefault();
 
         isAtStart = true;
