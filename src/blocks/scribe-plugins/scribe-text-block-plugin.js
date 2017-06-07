@@ -27,7 +27,7 @@ var ScribeTextBlockPlugin = function(block) {
 
     var isAtStartOfBlock = function() {
       var currentRange = selectionRange(scribe.el);
-      return currentRange.atStart;
+      return (currentRange.start === 0 && currentRange.start === currentRange.end);
     };
 
     var getTotalLength = function() {

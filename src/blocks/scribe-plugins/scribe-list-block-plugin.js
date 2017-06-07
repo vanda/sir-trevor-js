@@ -1,5 +1,7 @@
 "use strict";
 
+var selectionRange = require('selection-range');
+
 var ScribeListBlockPlugin = function(block) {
   return function(scribe) {
     scribe.el.addEventListener('keydown', function(ev) {
@@ -28,24 +30,32 @@ var ScribeListBlockPlugin = function(block) {
         return selection.range.startOffset;
       };
 
+      var isCaretAtStartOfBlock = function() {
+        var currentRange = selectionRange(scribe.el);
+        return currentRange.start === 0 && (currentRange.start === currentRange.end);
+      };
+
       var content;
 
       if (ev.keyCode === 13 && !ev.shiftKey) { // enter pressed
         ev.preventDefault();
 
-        if (scribe.getTextContent().length === 0) {
+        if (scribe.getTextContent().length === 0 && !block.nextListItem()) {
           block.removeCurrentListItem();
           block.mediator.trigger("block:create", 'Text', null, block.el, { autoFocus: true });
         } else {
           content = rangeToHTML(selectToEnd());
           block.addListItemAfterCurrent(content);
+
         }
 
-      } else if (ev.keyCode === 8 && currentPosition() === 0) {
+      } else if (ev.keyCode === 8 && isCaretAtStartOfBlock()) {
         ev.preventDefault();
 
         if (block.isLastListItem()) {
           block.mediator.trigger('block:remove', block.blockID);
+        } else if (!block.previousListItem()) {
+          // TODO:
         } else {
           content = scribe.getContent();
           block.removeCurrentListItem();

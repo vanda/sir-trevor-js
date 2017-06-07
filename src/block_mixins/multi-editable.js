@@ -1,5 +1,7 @@
 "use strict";
 
+var selectionRange = require('selection-range');
+
 var _ = require('../lodash');
 var ScribeInterface = require('../scribe-interface');
 
@@ -62,7 +64,9 @@ module.exports = {
   },
 
   appendToTextEditor: function(id, content) {
-    var scribe = this.getTextEditor(id).scribe;
+    var editor = this.getTextEditor(id);
+    var scribe = editor.scribe;
+
     var selection = new scribe.api.Selection();
     var range = selection.range.cloneRange();
     var lastChild = scribe.el.lastChild;
@@ -71,9 +75,20 @@ module.exports = {
     selection.selection.removeAllRanges();
     selection.selection.addRange(range);
 
+    var caretPosition = selectionRange(scribe.el);
+
     if (content) {
       scribe.insertHTML(content);
     }
+
+    scribe.el.focus();
+
+    selectionRange(scribe.el, {
+      start: caretPosition.start,
+      end: caretPosition.end
+    });
+
+    scribe.el.focus();
   },
 
   getCurrentScribeInstance: function() {

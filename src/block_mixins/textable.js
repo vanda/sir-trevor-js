@@ -69,7 +69,6 @@ module.exports = {
     this.focus();
 
     if (options.keepCaretPosition && caretPosition.start !== 0 && caretPosition.end !== 0) {
-      console.log(caretPosition.start, caretPosition.end);
       selectionRange(this._scribe.el, {
         start: caretPosition.start,
         end: caretPosition.end
