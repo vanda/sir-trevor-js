@@ -78,6 +78,7 @@ Object.assign(FormatBar.prototype, require('./function-bind'), require('./mediat
 
   renderBySelection: function(block) {
     this.block = block;
+    console.log(1, block)
     this.highlightSelectedButtons();
     this.show();
     this.calculatePosition();
