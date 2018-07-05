@@ -7078,7 +7078,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  execTextBlockCommand: function execTextBlockCommand(scribeInstance, cmdName) {
-	    console.log("scribe interface");
+	    console.log(cmdName);
 	    if (_.isUndefined(scribeInstance)) {
 	      throw "No Scribe instance found to query command";
 	    }
