@@ -52,14 +52,14 @@ module.exports = {
   },
 
   execTextBlockCommand: function(scribeInstance, cmdName) {
-    console.log("scribe interface")
-    if (_.isUndefined(scribeInstance)) {
-      throw "No Scribe instance found to query command";
-    }
+    // console.log("scribe interface")
+    // if (_.isUndefined(scribeInstance)) {
+    //   throw "No Scribe instance found to query command";
+    // }
 
-    var cmd = scribeInstance.getCommand(cmdName);
-    scribeInstance.el.focus();
-    return cmd.execute();
+    // var cmd = scribeInstance.getCommand(cmdName);
+    // scribeInstance.el.focus();
+    // return cmd.execute();
   },
 
   queryTextBlockCommandState: function(scribeInstance, cmdName) {
