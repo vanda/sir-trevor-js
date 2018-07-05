@@ -52,6 +52,7 @@ module.exports = {
   },
 
   execTextBlockCommand: function(scribeInstance, cmdName) {
+    console.log("scribe interface")
     if (_.isUndefined(scribeInstance)) {
       throw "No Scribe instance found to query command";
     }

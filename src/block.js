@@ -308,6 +308,7 @@ Object.assign(Block.prototype, SimpleBlock.fn, require('./block-validations'), {
   },
 
   execTextBlockCommand: function(cmdName) {
+    console.log("block");
     if (_.isUndefined(this._scribe)) {
       throw "No Scribe instance found to send a command to";
     }

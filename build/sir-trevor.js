@@ -7009,6 +7009,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  // scribe commands for FormatBar
 	  execTextBlockCommand: function execTextBlockCommand(cmdName) {
+	    console.log("multi-editable");
 	    return ScribeInterface.execTextBlockCommand(this.getCurrentScribeInstance(), cmdName);
 	  },
 
@@ -7077,6 +7078,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  execTextBlockCommand: function execTextBlockCommand(scribeInstance, cmdName) {
+	    console.log("scribe interface");
 	    if (_.isUndefined(scribeInstance)) {
 	      throw "No Scribe instance found to query command";
 	    }
@@ -19060,6 +19062,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 
 	  execTextBlockCommand: function execTextBlockCommand(cmdName) {
+	    console.log("block");
 	    if (_.isUndefined(this._scribe)) {
 	      throw "No Scribe instance found to send a command to";
 	    }

@@ -90,6 +90,7 @@ module.exports = {
 
   // scribe commands for FormatBar
   execTextBlockCommand: function(cmdName) {
+    console.log("multi-editable")
     return ScribeInterface.execTextBlockCommand(
       this.getCurrentScribeInstance(), cmdName
     );
